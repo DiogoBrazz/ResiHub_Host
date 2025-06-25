@@ -1,0 +1,57 @@
+<div class="container">
+
+    <table class="tabela">
+        @if(arquivados){
+            <div class="titulo">
+                <h3>Listagem de contratos: <b style="color: #fff; background-color: rgb(243, 70, 70); padding: 6px; border-radius: 6px;">Inativos</b></h3>
+                <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
+                (click)="arquivados = false">Ativos</button>
+            </div>
+        } @else{
+            <div class="titulo">
+                <h3>Listagem de contratos: <b style="color: #fff; background-color: green; padding: 6px; border-radius: 6px;">Ativos</b></h3>
+                <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
+                (click)="arquivados = true">Inativos</button>
+            </div>
+        }
+
+        <thead id="head_tabela">
+            <tr>
+                <th>Cliente</th>
+                <th>Apartamento</th>
+                <th>Data de Expiração</th>
+                <th>Identificador</th>
+                <div class="direita">
+                    <button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/sistema/contrato/new">Novo</button>
+                </div>
+            </tr>
+        </thead>
+
+        <tbody id="body_tabela">
+            @for (contrato of lista; track $index) {
+
+            @if(contrato.status != arquivados){
+
+            <tr>
+                <td>
+                    <p>{{contrato.cliente.nome}}</p>
+                </td>
+                <td>
+                    <p>{{contrato.ap.aparnum}}</p>
+                </td>
+                <td>(Desenvolvimento)</td>
+                <td>{{contrato.identificador}}</td>
+                
+                <td class="direita">
+                    @if(!arquivados){
+                    <button type="button" class="btn btn-danger" data-mdb-ripple-init
+                        (click)="arquivar(contrato)">Arquivar</button>
+                    }
+                </td>
+            </tr>
+            }
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,75 @@
+<div class="container">
+    <form class="form-card">
+        <h1><span class="icon"><i class="fa-solid fa-file-contract"></i></span> Criar Contrato</h1>
+        <p class="subtitle">Preencha os dados do contrato para cadastro no sistema</p>
+        <h2 class="section-title">Informações Contratuais</h2>
+
+        <div class="card-input form-group">
+            <select name="seletor" class="input" placeholder=" " [(ngModel)]="contrato.cliente">
+                @for (cliente of listac; track $index) {
+                    <option [ngValue]="cliente">{{cliente.nome}}</option>
+                }
+            </select>
+            <label for="apartamento">Cliente</label>
+        </div>
+        
+        <div class="form-group two-columns">
+            <div class="card-input">
+                <select name="seletor" class="input" for="usuario" placeholder=" " [(ngModel)]="contrato.ap.aparnum">
+                    @for (ap of lista; track $index) {
+                        @if (ap.status == 'Livre') {
+                            <option value="{{ap.aparnum}}">{{ap.aparnum}}</option>
+                        }
+                    }
+                </select>
+                <label for="apartamento">Apartamento</label>
+            </div>
+            <div class="card-input">
+                <input type="date" class="input" for="usuario" name="entrada" placeholder=" "
+                    [(ngModel)]="contrato.entrada" />
+                <label for="apartamento">Data de Entrada</label>
+            </div>
+        </div>
+
+        <div class="form-group three-columns">
+            <div class="card-input">
+                <input type="text" class="input" for="usuario" name="aluguel" placeholder=" "
+                    [(ngModel)]="contrato.valor_aluguel" />
+                <label for="apartamento">Aluguel</label>
+            </div>
+            <div class="card-input">
+                <input type="text" class="input" for="usuario" name="iptu" placeholder=" "
+                    [(ngModel)]="contrato.valor_iptu" />
+                <label for="apartamento">IPTU</label>
+            </div>
+            <div class="card-input">
+                <input type="text" class="input" for="usuario" name="condominio" placeholder=" "
+                    [(ngModel)]="contrato.valor_condominio" />
+                <label for="apartamento">Condomínio</label>
+            </div>
+        </div>
+        <div class="form-group two-columns">
+            <div class="card-input">
+                <input type="text" class="input" for="usuario" name="internet" placeholder=" "
+                    [(ngModel)]="contrato.valor_internet" />
+                <label for="apartamento">Internet</label>
+            </div>
+            <div class="card-input">
+                <input type="text" class="input" placeholder=" " [(ngModel)]="contrato.identificador"
+                    name="identificador" id="identificador" readonly />
+                <label for="apartamento">Identificador</label>
+            </div>
+        </div>
+        <div class="card-input">
+            <label type="number" id="valorTotal_" name="Condominio" id="Condominio"><b>Valor
+                    Total:</b> {{+contrato.valor_condominio + +contrato.valor_aluguel +
+                +contrato.valor_internet + +contrato.valor_iptu}}</label>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn btn-danger" routerLink="/sistema/contrato"
+                data-mdb-ripple-init>Voltar</button>
+            <button type="button" class="btn btn-info" (click)="save()"
+                [disabled]="!contrato.ap.aparnum || !contrato.valor_aluguel || !contrato.valor_internet || !contrato.valor_condominio">Salvar</button>
+        </div>
+    </form>
+</div>

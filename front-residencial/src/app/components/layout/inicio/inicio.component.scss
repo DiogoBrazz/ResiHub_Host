@@ -1,0 +1,32 @@
+.container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  color: #333;
+}
+
+.titulo{
+  padding-bottom: 20px;
+}
+
+.info-descricao{
+    margin: 0;
+}
+
+.painel-infos{
+    display: flex;
+    gap: 20px;
+}
+
+.painel-infos .info{
+    width: 25%;
+    border: solid 1px rgb(229, 231, 235);
+    border-radius: 10px;
+    padding: 16px;
+    transition: all 0.2s ease;
+}
+
+.painel-infos .info:hover{
+    border: solid 1px rgb(164, 165, 168);
+    background-color: rgb(246, 247, 248);
+}

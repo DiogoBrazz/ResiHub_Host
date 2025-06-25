@@ -1,0 +1,30 @@
+<div class="container">
+    <div class="titulo">
+        <h1>Painel de Controle</h1>
+        <p>Gerenciamento residencial</p>
+    </div>
+    <div class="painel">
+        <div class="painel-infos">
+            <div class="info info-1">
+                <p class="info-titulo">Total de Apartamentos</p>
+                <h1>{{ totalAp }}</h1>
+                <p class="info-descricao">{{ livres }} vago(s) | {{ ocupados }} ocupado(s)</p>
+            </div>
+            <div class="info info-2">
+                <p class="info-titulo">Apartamentos Ocupados</p>
+                <h1>{{ porcentagemOcupados }}%</h1>
+                <p class="info-descricao">{{ ocupados }} de {{ totalAp }} apartamento(s)</p>
+            </div>
+            <div class="info info-3">
+                <p class="info-titulo">Total de Clientes</p>
+                <h1>{{ totalClientes }}</h1>
+                <p class="info-descricao">{{ totalClientes }} clientes registrados</p>
+            </div>
+            <div class="info info-4">
+                <p class="info-titulo">Contratos Ativos</p>
+                <h1>(produção)</h1>
+                <p class="info-descricao">De 5 contratos totais</p>
+            </div>
+        </div>
+    </div>
+</div>

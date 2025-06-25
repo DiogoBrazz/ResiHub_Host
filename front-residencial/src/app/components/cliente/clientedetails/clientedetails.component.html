@@ -1,0 +1,184 @@
+
+<div class="container">
+    <form class="form-card" *ngIf="mostrarContrato === false">
+      <h1><span class="icon"><i class="fas fa-users"></i></span> Cadastro de Cliente</h1>
+      <p class="subtitle">Preencha os dados do cliente para cadastro no sistema</p>
+
+      <h2 class="section-title">Informações Pessoais</h2>
+
+      <div class="form-group two-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="nome" placeholder=" " [(ngModel)]="cliente.nome" />
+            <label for="apartamento">Nome Completo</label>
+        </div>
+        <div class="card-input">
+            <input type="date" class="input" for="usuario" name="nascimento" placeholder=" " [(ngModel)]="cliente.nascimento" />
+            <label for="apartamento">Data de Nascimento</label>
+        </div>
+      </div>
+
+      <div class="form-group three-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="telefone" placeholder=" " [(ngModel)]="cliente.telefone" />
+            <label for="apartamento">Telefone</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="cpf" placeholder=" " [(ngModel)]="cliente.cpf" />
+            <label for="apartamento">CPF</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="rg" placeholder=" " [(ngModel)]="cliente.rg" />
+            <label for="apartamento">RG</label>
+        </div>
+      </div>
+      <div class="form-group two-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="email" placeholder=" " [(ngModel)]="cliente.email" />
+            <label for="apartamento">Email</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="profissao" placeholder=" " [(ngModel)]="cliente.profissao" />
+            <label for="apartamento">Profissão</label>
+        </div>
+      </div>
+
+      <h2 class="section-title">Endereço</h2>
+
+      <div class="form-group two-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="rua" [(ngModel)]="cliente.rua"/>
+            <label for="apartamento">Rua</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="casaNumero" placeholder=" " [(ngModel)]="cliente.casaNumero"/>
+            <label for="apartamento">Número</label>
+        </div>
+      </div>
+
+      <div class="form-group three-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="bairro" placeholder=" " [(ngModel)]="cliente.bairro"/>
+            <label for="apartamento">Bairro</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="cidade" placeholder=" " [(ngModel)]="cliente.cidade"/>
+            <label for="apartamento">Cidade</label>
+        </div>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="estado" placeholder=" " [(ngModel)]="cliente.estado"/>
+            <label for="apartamento">Estado</label>
+        </div>
+      </div>
+
+      <div class="form-group two-columns">
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" name="cep" placeholder=" " [(ngModel)]="cliente.cep"/>
+            <label for="apartamento">CEP</label>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-danger" routerLink="/sistema/cliente">← Cancelar</button>
+            <button [disabled]="
+                            cliente.nome == null || 
+                            cliente.telefone == null || 
+                            cliente.email == null || 
+                            cliente.nascimento == null || 
+                            cliente.profissao == null || 
+                            cliente.rg == null || 
+                            cliente.cpf == null || 
+                            cliente.rua == null ||
+                            cliente.bairro == null ||
+                            cliente.casaNumero == null ||
+                            cliente.cidade == null ||
+                            cliente.estado == null ||
+                            cliente.cep == null 
+                            " type="submit" class="btn btn-info" (click)="salvaDepoisContratos()">Vincular Contrato</button>
+                             <button [disabled]="
+                            cliente.nome == null || 
+                            cliente.telefone == null || 
+                            cliente.email == null || 
+                            cliente.nascimento == null || 
+                            cliente.profissao == null || 
+                            cliente.rg == null || 
+                            cliente.cpf == null || 
+                            cliente.rua == null ||
+                            cliente.bairro == null ||
+                            cliente.casaNumero == null ||
+                            cliente.cidade == null ||
+                            cliente.estado == null ||
+                            cliente.cep == null 
+                            " type="submit" class="btn btn-info" (click)="save()">💾 Salvar Cliente</button>
+      </div>
+      
+    </form>
+    <form class="form-card" *ngIf="mostrarContrato">
+      <div *ngIf="mostrarContrato">
+        <h2 class="section-title">Informações Contratuais</h2>
+
+        <div class="card-input form-group">
+            <select name="seletor" class="input" placeholder=" " [(ngModel)]="contrato.cliente">
+                @for (cliente of listac; track $index) {
+                    <option [ngValue]="cliente">{{cliente.nome}}</option>
+                }
+            </select>
+            <label for="apartamento">Cliente</label>
+        </div>
+
+        <div class="form-group two-columns">
+          <div class="card-input">
+              <select name="seletor" class="input" for="usuario" placeholder=" " [(ngModel)]="contrato.ap.aparnum">
+                  @for (ap of lista; track $index) {
+                      @if (ap.status == 'Livre') {
+                          <option value="{{ap.aparnum}}">{{ap.aparnum}}</option>
+                      }
+                  }
+                </select>
+              <label for="apartamento">Apartamento</label>
+          </div>
+          <div class="card-input">
+              <input type="date" class="input" for="usuario" name="entrada" placeholder=" " [(ngModel)]="contrato.entrada"/>
+              <label for="apartamento">Data de Entrada</label>
+          </div>
+        </div>
+
+        <div class="form-group three-columns">
+          <div class="card-input">
+              <input type="text" class="input" for="usuario" name="valor_aluguel" placeholder=" " [(ngModel)]="contrato.valor_aluguel"/>
+              <label for="apartamento">Aluguel</label>
+          </div>
+          <div class="card-input">
+              <input type="text" class="input" for="usuario" name="valor_iptu" placeholder=" " [(ngModel)]="contrato.valor_iptu"/>
+              <label for="apartamento">IPTU</label>
+          </div>
+          <div class="card-input">
+              <input type="text" class="input" for="usuario" name="valor_condominio" placeholder=" " [(ngModel)]="contrato.valor_condominio"/>
+              <label for="apartamento">Condomínio</label>
+          </div>
+        </div>
+        <div class="form-group two-columns">
+          <div class="card-input">
+              <input type="text" class="input" for="usuario" name="valor_internet" placeholder=" " [(ngModel)]="contrato.valor_internet"/>
+              <label for="apartamento">Internet</label>
+          </div>
+          <div class="card-input">
+              <input type="text" class="input" placeholder=" " name="identificador" id="identificador" readonly [(ngModel)]="contrato.identificador"/>
+              <label for="apartamento">Identificador</label>
+          </div>
+      </div>
+
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-danger" routerLink="/sistema/cliente">← Cancelar</button>
+            <button [disabled]="
+                            contrato.cliente == null || 
+                            contrato.ap.aparnum == null || 
+                            contrato.entrada == null || 
+                            contrato.valor_aluguel == null || 
+                            contrato.valor_iptu == null || 
+                            contrato.valor_condominio == null || 
+                            contrato.valor_internet == null 
+                            " type="submit" class="btn btn-info" (click)="saveContrato()">💾 Vincular Contrato</button>
+      </div>
+    </form>
+  </div>

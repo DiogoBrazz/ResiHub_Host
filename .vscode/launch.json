@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-integradorApplication<integrador>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "app.integradorApplication",
+            "projectName": "integrador",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
