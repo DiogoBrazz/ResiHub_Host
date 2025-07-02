@@ -14,6 +14,7 @@ export class ContratoModule {
   valor_total!: number; 
   status!: boolean;
   entrada!: string;
+  saida !: string;
 
   constructor() {
     this.ap = new Apartamento(); 

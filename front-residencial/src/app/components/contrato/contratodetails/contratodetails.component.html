@@ -13,7 +13,7 @@
             <label for="apartamento">Cliente</label>
         </div>
         
-        <div class="form-group two-columns">
+        <div class="form-group three-columns">
             <div class="card-input">
                 <select name="seletor" class="input" for="usuario" placeholder=" " [(ngModel)]="contrato.ap.aparnum">
                     @for (ap of lista; track $index) {
@@ -28,6 +28,11 @@
                 <input type="date" class="input" for="usuario" name="entrada" placeholder=" "
                     [(ngModel)]="contrato.entrada" />
                 <label for="apartamento">Data de Entrada</label>
+            </div>
+            <div class="card-input">
+                <input type="date" class="input" for="usuario" name="saida" placeholder=" "
+                    [(ngModel)]="contrato.saida" />
+                <label for="apartamento">Data de Saída</label>
             </div>
         </div>
 

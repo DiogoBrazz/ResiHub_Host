@@ -49,7 +49,7 @@ public class ApartamentoService {
 	
 	
 	public String update(int Aparnum, Apartamento apartamento) {
-		apartamento.setAparnum( Aparnum);
+		apartamento.setAparnum(Aparnum);
 		this.apartamentoRepository.save(apartamento);
 		return " Apartamento alterado com sucesso";
 	}
@@ -59,12 +59,12 @@ public class ApartamentoService {
 	}
 	
 	public Apartamento findById(int Aparnum) {
-		Apartamento apartamento = this.apartamentoRepository.findById( Aparnum).get();
+		Apartamento apartamento = this.apartamentoRepository.findById(Aparnum).get();
 		return apartamento;
 	}
 	
 	public String delete(int Aparnum) {
-		this.apartamentoRepository.deleteById( Aparnum);
+		this.apartamentoRepository.deleteById(Aparnum);
 		return " Apartamento deletado com sucesso";
 	}
 	

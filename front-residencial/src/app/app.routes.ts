@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import { ContratolistComponent } from './components/contrato/contratolist/contratolist.component';
 import { ContratodetailsComponent } from './components/contrato/contratodetails/contratodetails.component';
 import { RegisterComponent } from './components/layout/register/register.component';
+import { ApartamentoinfoComponent } from './components/apartamento/apartamentoinfo/apartamentoinfo.component';
 
 
 
@@ -23,6 +24,7 @@ export const routes: Routes = [
         {path: "dashboard", component: InicioComponent},
         {path: "apartamento", component: ApartamentolistComponent},
         {path: "apartamento/new", component: ApartamentodetailsComponent},
+        {path: "apartamento/:id", component: ApartamentoinfoComponent},
         {path: "apartamento/edit/:id", component: ApartamentodetailsComponent},
         {path: "cliente", component:ClientelistComponent},
         {path: "cliente/new", component:ClientedetailsComponent},

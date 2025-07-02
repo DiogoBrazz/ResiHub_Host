@@ -27,7 +27,7 @@ export class ApartamentoService {
   }
 
   findByAparNum(id: number): Observable<Apartamento>{ 
-    return this.http.get<Apartamento>(this.API+"/findByAparNum/" + id);
+    return this.http.get<Apartamento>(this.API+"/findById/" + id);
   }
 
   delete(id: number): Observable<string> {

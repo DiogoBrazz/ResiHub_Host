@@ -35,6 +35,7 @@
                 </td>
                 <td class="direita">
                     <!--<button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/admin/apartamento/edit/{{apartamento.aparnum}}">Editar</button> -->
+                    <button type="button" class="btn btn-info" title="Informações" [routerLink]="['/sistema/apartamento/', apartamento.aparnum]"><i class="fas fa-info-circle"></i></button>
                     <button type="button" class="btn btn-danger" data-mdb-ripple-init (click)="deletar(apartamento)"
                         title="Deletar apartamento"><i class="fas fa-trash-alt"></i></button>
                 </td>

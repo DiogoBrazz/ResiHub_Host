@@ -40,6 +40,7 @@ public class ApartamentoController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('admin')")
 	@PutMapping("/update/{Aparnum}")
 	public ResponseEntity<String> update(@Valid @RequestBody Apartamento apartamento, @PathVariable int Aparnum){
 		try {
@@ -50,6 +51,7 @@ public class ApartamentoController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('admin')")
 	@GetMapping("/listAll")
 	public ResponseEntity<List<Apartamento>> listAll(){
 		try {
@@ -60,6 +62,7 @@ public class ApartamentoController {
 		}
 	}
 	
+	@PreAuthorize("isAuthenticated()") 
 	@GetMapping("/findById/{Aparnum}")
 	public ResponseEntity<Apartamento> findById(@PathVariable int Aparnum){
 		try {

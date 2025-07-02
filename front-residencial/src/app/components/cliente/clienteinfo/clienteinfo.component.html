@@ -44,11 +44,13 @@
 
         <div class="info-box info-box-2">
             <table id="table-info2-id">
+                @if (cliente.contratos.length > 0) {
                 <thead id="thead-info2-id">
                     <tr>
                         <th>Ap.</th>
                         <th>Contrato</th>
                         <th>Data de entrada</th>
+                        <th>Data de saída</th>
                         <th>Condomínio</th>
                         <th>Aluguel</th>
                         <th>Internet</th>
@@ -57,48 +59,43 @@
                     </tr>
                 </thead>
                 <tbody id="tbody-info2-id">
-                    @if (cliente.contratos.length > 0) {
-                        @for (contrato of cliente.contratos; track $index) {
-                            @if (contrato !== undefined) {
-                                <tr>
-                                    <td><b>{{ contrato.ap.aparnum }}</b></td>
-                                    @if (contrato.status) {
-                                        <td><b style="color: green;">{{ contrato.identificador }}</b></td>
-                                    } @else {
-                                        <td><b style="color: red;">{{ contrato.identificador }}</b></td>
-                                    }
-                                    <td>
-                                        @if (contrato.entrada === null) {
-                                            <b>Sem data</b>
-                                        } @else {
-                                            <b>{{ contrato.entrada | date: 'dd/MM/yyyy' }}</b>
-                                        }
-                                    </td>
-                                    <td>{{ contrato.valor_condominio }}</td>
-                                    <td>{{ contrato.valor_aluguel }}</td>
-                                    <td>{{ contrato.valor_internet }}</td>
-                                    <td>{{ contrato.valor_iptu }}</td>
-                                    <td>
-                                        <b>R$</b> {{
-                                            +contrato.valor_condominio +
-                                            +contrato.valor_aluguel +
-                                            +contrato.valor_internet +
-                                            +contrato.valor_iptu
-                                        }}
-                                    </td>
-                                </tr>
-                            } @else {
-                                <tr>
-                                    <td colspan="8" style="text-align: center; color: gray;">Sem informações</td>
-                                </tr>
-                            }
+
+                    @for (contrato of cliente.contratos; track $index) {
+                    @if (contrato !== undefined) {
+                    <tr>
+                        <td><b>{{ contrato.ap.aparnum }}</b></td>
+                        @if (contrato.status) {
+                        <td><b style="color: green;">{{ contrato.identificador }}</b></td>
+                        } @else {
+                        <td><b style="color: red;">{{ contrato.identificador }}</b></td>
                         }
+                        <td><b>{{ contrato.entrada | date: 'dd/MM/yyyy' }}</b></td>
+                        <td><b>{{ contrato.saida | date: 'dd/MM/yyyy' }}</b></td>
+                        <td>{{ contrato.valor_condominio }}</td>
+                        <td>{{ contrato.valor_aluguel }}</td>
+                        <td>{{ contrato.valor_internet }}</td>
+                        <td>{{ contrato.valor_iptu }}</td>
+                        <td>
+                            <b>R$</b> {{
+                            +contrato.valor_condominio +
+                            +contrato.valor_aluguel +
+                            +contrato.valor_internet +
+                            +contrato.valor_iptu
+                            }}
+                        </td>
+                    </tr>
                     } @else {
-                        <tr>
-                            <td colspan="8" style="text-align: center; color: gray;">Sem informações</td>
-                        </tr>
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: gray;">Sem informações</td>
+                    </tr>
+                    }
                     }
                 </tbody>
+                } @else {
+                <tr>
+                    <td colspan="8" style="text-align: center; color: gray;">Sem informações contratuais!</td>
+                </tr>
+                }
             </table>
         </div>
     </div>

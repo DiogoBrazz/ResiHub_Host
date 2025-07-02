@@ -35,6 +35,8 @@ public class Contrato {
 	private Double valor_aluguel;
 	
 	private String entrada;
+
+	private String saida;
 	
 	private boolean status;
 	
@@ -126,6 +128,14 @@ public class Contrato {
 
 	public void setEntrada(String entrada) {
 		this.entrada = entrada;
+	}
+
+	public String getSaida() {
+		return saida;
+	}
+
+	public void setSaida(String saida) {
+		this.saida = saida;
 	}
 
 
