@@ -2,11 +2,21 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-integradorApplication<integrador>",
+            "name": "Spring Boot-integradorApplication<integrador (2)>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "mainClass": "app.integradorApplication",
-            "projectName": "integrador",
+            "projectName": "integrador (2)",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ResihubApplication<backend_resihub>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "app.ResihubApplication",
+            "projectName": "backend_resihub",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
