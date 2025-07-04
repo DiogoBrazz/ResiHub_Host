@@ -1,91 +1,207 @@
+// Paleta de Cores Moderna
+$primary-color: #005A9C;      // Azul corporativo
+$accent-color: #007bff;       // Azul vibrante para destaque
+$occupied-bg: #FFEBEB;       // Fundo do dia ocupado (rosa claro)
+$occupied-text: #B95C5C;     // Texto do dia ocupado (vermelho suave)
+$gray-light: #f8f9fa;        // Fundo sutil
+$gray-text: #6c757d;         // Texto secundário
+$border-color: #e9ecef;      // Cor da borda
+
+// Layout Principal
+.details-view {
+  display: grid;
+  grid-template-columns: 280px 1fr; // Coluna fixa para info, coluna flexível para calendário
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+// Painel de Informações (Coluna da Esquerda)
+.info-panel {
+  background-color: $gray-light;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+  height: 100%;
+
+  .panel-subtitle {
+    font-size: 0.9rem;
+    color: $gray-text;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ap-number {
+    font-size: 4rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid $border-color;
+
+    label {
+      color: $gray-text;
+      font-size: 0.9rem;
+    }
+    span {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  }
+
+  .status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.8rem;
+
+    &.status-livre {
+      background-color: #e7f5ec;
+      color: #0d6b31;
+    }
+    &.status-ocupado {
+      background-color: #fdf0e7;
+      color: #b95c21;
+    }
+  }
+}
+
+// Painel do Calendário (Coluna da Direita)
+.calendar-panel {
+  padding: 1rem;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  height: 100%;
+}
+
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.25rem;
+  margin-bottom: 2rem;
 
-  h5 {
+  .month-title {
+    font-size: 1.5rem;
+    font-weight: 600;
     margin: 0;
+    color: #333;
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: $gray-text;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    &:hover {
+      background-color: $gray-light;
+      color: $primary-color;
+    }
   }
 }
 
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  text-align: center;
+  gap: 8px;
 }
 
 .weekday-header {
-  font-weight: bold;
-  color: #6c757d;
-  padding-bottom: 10px;
+  font-weight: 600;
+  color: $gray-text;
+  text-align: center;
+  font-size: 0.85rem;
+  padding-bottom: 1rem;
 }
 
 .day-cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
+  height: 60px;
+  border-radius: 8px;
   background-color: #fff;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+  cursor: default;
+
+  &:hover:not(.not-current-month) {
+    background-color: $gray-light;
+  }
 
   &.not-current-month {
-    background-color: #f8f9fa;
-    color: #adb5bd;
+    color: #ced4da;
+    pointer-events: none;
   }
 
   &.occupied {
-    background-color: #f8d7da; // Vermelho claro (Bootstrap danger)
-    color: #721c24;
-    font-weight: bold;
-    border-color: #f5c6cb;
+    background-color: $occupied-bg;
+    color: $occupied-text;
+    font-weight: 600;
   }
-  
+
   &.today span {
-      background-color: #007bff;
-      color: white;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+    background-color: $accent-color;
+    color: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
 .legend {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding-top: 10px;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: $gray-text;
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    &.free { background-color: #fff; border: 1px solid $border-color; }
+    &.occupied { background-color: $occupied-bg; }
+  }
 }
 
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+// Botão de Voltar
+.btn-voltar {
+  display: block;
+  margin: 2.5rem auto 1rem;
+  padding: 0.75rem 2rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 
-.box {
-  width: 15px;
-  height: 15px;
-  border: 1px solid #ccc;
-  display: inline-block;
-}
-
-.occupied-box {
-  background-color: #f8d7da;
-}
-
-.free-box {
-  background-color: #fff;
-}
-
-.btn-secondary{
-  width: 200px;
-  margin: 20px 75vh;
+  &:hover {
+    background-color: #212529;
+    transform: translateY(-2px);
+  }
 }

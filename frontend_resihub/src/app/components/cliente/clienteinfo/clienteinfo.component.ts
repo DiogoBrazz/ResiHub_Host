@@ -45,4 +45,16 @@ export class ClienteinfoComponent implements OnInit {
       }
     });
   }
+
+  public openedPopoverIndex: number | null = null;
+
+  toggleDetailsPopover(index: number): void {
+    if (this.openedPopoverIndex === index) {
+      // Se o popover clicado já está aberto, fecha ele
+      this.openedPopoverIndex = null;
+    } else {
+      // Abre o popover clicado
+      this.openedPopoverIndex = index;
+    }
+  }
 }

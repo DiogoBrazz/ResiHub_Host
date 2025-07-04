@@ -1,106 +1,127 @@
 <div class="container">
-    <h1 class="titulo">Informações do Cliente:</h1>
-    <div class="principal-box">
-        <div class="info-box info-box-1">
-            <div>
-                <label><strong>Nome:</strong></label>
-                <h3>{{ cliente.nome }}</h3>
+    <h1 class="titulo">Informações do Cliente</h1>
+
+    <div class="content-grid">
+        <div class="card client-details-card">
+            <div class="card-header">
+                <h2>{{ cliente.nome }}</h2>
+                <p>{{ cliente.profissao }}</p>
             </div>
-            <table id="table-info-id">
-                <thead id="thead-info-id">
-                    <tr>
-                        <th>RG</th>
-                        <th>CPF</th>
-                        <th>Nascimento</th>
-                        <th>Telefone</th>
-                        <th>Profissão</th>
-                        <th>Email</th>
-                        <th>Cidade</th>
-                        <th>Estado</th>
-                        <th>Bairro</th>
-                        <th>Rua</th>
-                        <th>Número</th>
-                        <th>CEP</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-info-id">
-                    <tr>
-                        <td>{{ cliente.rg }}</td>
-                        <td>{{ cliente.cpf }}</td>
-                        <td>{{ cliente.nascimento | date: 'dd/MM/yyyy' }}</td>
-                        <td>{{ cliente.telefone }}</td>
-                        <td>{{ cliente.profissao }}</td>
-                        <td>{{ cliente.email }}</td>
-                        <td>{{ cliente.cidade }}</td>
-                        <td>{{ cliente.estado }}</td>
-                        <td>{{ cliente.bairro }}</td>
-                        <td>{{ cliente.rua }}</td>
-                        <td>{{ cliente.casaNumero }}</td>
-                        <td>{{ cliente.cep }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="info-section">
+                    <h4>Dados Pessoais</h4>
+                    <div class="info-item">
+                        <label>CPF</label>
+                        <span>{{ cliente.cpf }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>RG</label>
+                        <span>{{ cliente.rg }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Nascimento</label>
+                        <span>{{ cliente.nascimento | date: 'dd/MM/yyyy' }}</span>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h4>Contato e Endereço</h4>
+                    <div class="info-item">
+                        <label>Email</label>
+                        <span>{{ cliente.email }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Telefone</label>
+                        <span>{{ cliente.telefone }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Endereço</label>
+                        <span>{{ cliente.rua }}, {{ cliente.casaNumero }}, {{ cliente.bairro }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Cidade / Estado</label>
+                        <span>{{ cliente.cidade }} / {{ cliente.estado }}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>CEP</label>
+                        <span>{{ cliente.cep }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="info-box info-box-2">
-            <table id="table-info2-id">
-                @if (cliente.contratos.length > 0) {
-                <thead id="thead-info2-id">
-                    <tr>
-                        <th>Ap.</th>
-                        <th>Contrato</th>
-                        <th>Data de entrada</th>
-                        <th>Data de saída</th>
-                        <th>Condomínio</th>
-                        <th>Aluguel</th>
-                        <th>Internet</th>
-                        <th>IPTU</th>
-                        <th>Valor Total</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-info2-id">
+        <div class="card contracts-card">
+            <div class="card-header">
+                <h2>Contratos</h2>
+            </div>
+            <div class="card-body">
+                @if (cliente.contratos && cliente.contratos.length > 0) {
+                <table class="contracts-table">
+                    <thead>
+                        <tr>
+                            <th>Ap.</th>
+                            <th>Contrato</th>
+                            <th>Entrada</th>
+                            <th>Saída</th>
+                            <th>Status</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (contrato of cliente.contratos; track $index) {
+                        <tr>
+                            <td><b>{{ contrato.ap.aparnum }}</b></td>
+                            <td>{{ contrato.identificador }}</td>
+                            <td>{{ contrato.entrada | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ contrato.saida | date: 'dd/MM/yyyy' }}</td>
+                            <td>
+                                @if (contrato.status) {
+                                <span class="status-badge status-active">Ativo</span>
+                                } @else {
+                                <span class="status-badge status-inactive">Inativo</span>
+                                }
+                            </td>
+                            <td class="total-value-cell">
+                                <span>
+                                    <b>R$ {{
+                                        +contrato.valor_condominio +
+                                        +contrato.valor_aluguel +
+                                        +contrato.valor_internet +
+                                        +contrato.valor_iptu
+                                        }}</b>
+                                </span>
 
-                    @for (contrato of cliente.contratos; track $index) {
-                    @if (contrato !== undefined) {
-                    <tr>
-                        <td><b>{{ contrato.ap.aparnum }}</b></td>
-                        @if (contrato.status) {
-                        <td><b style="color: green;">{{ contrato.identificador }}</b></td>
-                        } @else {
-                        <td><b style="color: red;">{{ contrato.identificador }}</b></td>
+                                <button type="button" class="details-icon-btn" (click)="toggleDetailsPopover($index)">
+                                    <span class="material-symbols-outlined">info</span>
+                                </button>
+
+                                @if (openedPopoverIndex === $index) {
+                                <div class="details-popover">
+                                    <ul class="values-list">
+                                        <li><span>Condomínio:</span> <b>R$ {{ contrato.valor_condominio }}</b></li>
+                                        <li><span>Aluguel:</span> <b>R$ {{ contrato.valor_aluguel }}</b></li>
+                                    </ul>
+                                    <ul class="values-list">
+                                        <li><span>Internet:</span> <b>R$ {{ contrato.valor_internet }}</b></li>
+                                        <li><span>IPTU:</span> <b>R$ {{ contrato.valor_iptu }}</b></li>
+                                    </ul>
+                                </div>
+                                }
+                            </td>
+                        </tr>
                         }
-                        <td><b>{{ contrato.entrada | date: 'dd/MM/yyyy' }}</b></td>
-                        <td><b>{{ contrato.saida | date: 'dd/MM/yyyy' }}</b></td>
-                        <td>{{ contrato.valor_condominio }}</td>
-                        <td>{{ contrato.valor_aluguel }}</td>
-                        <td>{{ contrato.valor_internet }}</td>
-                        <td>{{ contrato.valor_iptu }}</td>
-                        <td>
-                            <b>R$</b> {{
-                            +contrato.valor_condominio +
-                            +contrato.valor_aluguel +
-                            +contrato.valor_internet +
-                            +contrato.valor_iptu
-                            }}
-                        </td>
-                    </tr>
-                    } @else {
-                    <tr>
-                        <td colspan="8" style="text-align: center; color: gray;">Sem informações</td>
-                    </tr>
-                    }
-                    }
-                </tbody>
+                    </tbody>
+                </table>
                 } @else {
-                <tr>
-                    <td colspan="8" style="text-align: center; color: gray;">Sem informações contratuais!</td>
-                </tr>
+                <div class="empty-state">
+                    <p>Nenhum contrato encontrado para este cliente.</p>
+                </div>
                 }
-            </table>
+            </div>
         </div>
     </div>
 
-    <button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/sistema/cliente">
-        <p>Voltar</p>
+    <button type="button" class="btn btn-voltar" data-mdb-ripple-init routerLink="/sistema/cliente">
+        Voltar
     </button>
 </div>

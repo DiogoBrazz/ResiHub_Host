@@ -1,55 +1,72 @@
 <div class="container">
-  <!-- Card com informações principais do Apartamento -->
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <h4>
-        <i class="fas fa-info-circle"></i> Informações do Apartamento
-      </h4>
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">Apartamento nº: {{ apartamento.aparnum }}</h5>
-      <p class="card-text">
-        <strong>Andar:</strong> {{ apartamento.andar }} <br>
-        <strong>Status Atual:</strong> {{ apartamento.status === 'Livre' ? 'Livre' : 'Ocupado' }}
-      </p>
-    </div>
-  </div>
+  <div class="details-view">
 
-  <!-- Calendário de Ocupação -->
-  <div class="card mt-4">
-    <div class="card-header calendar-header">
-      <button class="btn btn-outline-primary" (click)="previousMonth()">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      <h5>{{ monthNames[currentDate.getMonth()] }} de {{ currentDate.getFullYear() }}</h5>
-      <button class="btn btn-outline-primary" (click)="nextMonth()">
-        <i class="fas fa-chevron-right"></i>
-      </button>
+    <div class="info-panel">
+      <span class="panel-subtitle">Apartamento</span>
+      <h1 class="ap-number">{{ apartamento.aparnum }}</h1>
+
+      <div class="info-item">
+        <label>Andar</label>
+        <span>{{ apartamento.andar }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Bloco</label>
+        <span>{{ apartamento.bloco }}</span>
+      </div>
+
+      <div class="info-item">
+        <label>Status</label>
+        @if (apartamento.status === 'Livre') {
+          <span class="status-badge status-livre">Livre</span>
+        } @else {
+          <span class="status-badge status-ocupado">Ocupado</span>
+        }
+      </div>
+
+      @if (apartamento.status != 'Livre') {
+        <div class="info-item">
+          <label>Locatário</label>
+          <span>{{ apartamento.status }}</span>
+        </div>
+      }
     </div>
-    <div class="card-body">
+
+    <div class="calendar-panel">
+      <div class="calendar-header">
+        <button class="nav-btn" (click)="previousMonth()">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <h3 class="month-title">{{ monthNames[currentDate.getMonth()] }} de {{ currentDate.getFullYear() }}</h3>
+        <button class="nav-btn" (click)="nextMonth()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
       <div class="calendar-grid">
-        <!-- Cabeçalho com os dias da semana -->
         @for(dayName of weekDays; track dayName) {
           <div class="weekday-header">{{ dayName }}</div>
         }
 
-        <!-- Dias do calendário -->
         @for(day of calendarDays; track day.date) {
-          <div class="day-cell" [class.occupied]="day.isOccupied && day.isCurrentMonth"
-                                [class.not-current-month]="!day.isCurrentMonth"
-                                [class.today]="day.isToday">
+          <div class="day-cell" 
+               [class.occupied]="day.isOccupied && day.isCurrentMonth"
+               [class.not-current-month]="!day.isCurrentMonth"
+               [class.today]="day.isToday">
             <span>{{ day.dayOfMonth }}</span>
           </div>
         }
       </div>
-      <div class="legend mt-3">
-        <span class="legend-item"><span class="box occupied-box"></span> Ocupado</span>
-        <span class="legend-item"><span class="box free-box"></span> Livre</span>
+
+      <div class="legend">
+        <div class="legend-item"><span class="dot free"></span> Livre</div>
+        <div class="legend-item"><span class="dot occupied"></span> Ocupado</div>
       </div>
     </div>
+
   </div>
-  <button class="btn btn-secondary" routerLink="/sistema/apartamento">
+
+  <button class="btn btn-voltar" routerLink="/sistema/apartamento">
     <i class="fas fa-arrow-left"></i> Voltar
   </button>
 </div>
-

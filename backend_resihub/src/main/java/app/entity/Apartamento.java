@@ -25,6 +25,8 @@ public class Apartamento {
 	private int aparnum;
 
 	private int andar;
+
+	private int bloco;
 	
 	//@NotBlank
 	private String status;
@@ -62,6 +64,14 @@ public class Apartamento {
 
 	public void setAndar(int andar) {
 		this.andar = andar;
+	}
+
+	public int getBloco() {
+		return bloco;
+	}
+
+	public void setBloco(int bloco) {
+		this.bloco = bloco;
 	}
 
 	public String getStatus() {
