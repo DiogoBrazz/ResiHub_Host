@@ -1,0 +1,106 @@
+<div class="container">
+    <h1 class="titulo">Informações do Cliente:</h1>
+    <div class="principal-box">
+        <div class="info-box info-box-1">
+            <div>
+                <label><strong>Nome:</strong></label>
+                <h3>{{ cliente.nome }}</h3>
+            </div>
+            <table id="table-info-id">
+                <thead id="thead-info-id">
+                    <tr>
+                        <th>RG</th>
+                        <th>CPF</th>
+                        <th>Nascimento</th>
+                        <th>Telefone</th>
+                        <th>Profissão</th>
+                        <th>Email</th>
+                        <th>Cidade</th>
+                        <th>Estado</th>
+                        <th>Bairro</th>
+                        <th>Rua</th>
+                        <th>Número</th>
+                        <th>CEP</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-info-id">
+                    <tr>
+                        <td>{{ cliente.rg }}</td>
+                        <td>{{ cliente.cpf }}</td>
+                        <td>{{ cliente.nascimento | date: 'dd/MM/yyyy' }}</td>
+                        <td>{{ cliente.telefone }}</td>
+                        <td>{{ cliente.profissao }}</td>
+                        <td>{{ cliente.email }}</td>
+                        <td>{{ cliente.cidade }}</td>
+                        <td>{{ cliente.estado }}</td>
+                        <td>{{ cliente.bairro }}</td>
+                        <td>{{ cliente.rua }}</td>
+                        <td>{{ cliente.casaNumero }}</td>
+                        <td>{{ cliente.cep }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-box info-box-2">
+            <table id="table-info2-id">
+                @if (cliente.contratos.length > 0) {
+                <thead id="thead-info2-id">
+                    <tr>
+                        <th>Ap.</th>
+                        <th>Contrato</th>
+                        <th>Data de entrada</th>
+                        <th>Data de saída</th>
+                        <th>Condomínio</th>
+                        <th>Aluguel</th>
+                        <th>Internet</th>
+                        <th>IPTU</th>
+                        <th>Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-info2-id">
+
+                    @for (contrato of cliente.contratos; track $index) {
+                    @if (contrato !== undefined) {
+                    <tr>
+                        <td><b>{{ contrato.ap.aparnum }}</b></td>
+                        @if (contrato.status) {
+                        <td><b style="color: green;">{{ contrato.identificador }}</b></td>
+                        } @else {
+                        <td><b style="color: red;">{{ contrato.identificador }}</b></td>
+                        }
+                        <td><b>{{ contrato.entrada | date: 'dd/MM/yyyy' }}</b></td>
+                        <td><b>{{ contrato.saida | date: 'dd/MM/yyyy' }}</b></td>
+                        <td>{{ contrato.valor_condominio }}</td>
+                        <td>{{ contrato.valor_aluguel }}</td>
+                        <td>{{ contrato.valor_internet }}</td>
+                        <td>{{ contrato.valor_iptu }}</td>
+                        <td>
+                            <b>R$</b> {{
+                            +contrato.valor_condominio +
+                            +contrato.valor_aluguel +
+                            +contrato.valor_internet +
+                            +contrato.valor_iptu
+                            }}
+                        </td>
+                    </tr>
+                    } @else {
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: gray;">Sem informações</td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+                } @else {
+                <tr>
+                    <td colspan="8" style="text-align: center; color: gray;">Sem informações contratuais!</td>
+                </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/sistema/cliente">
+        <p>Voltar</p>
+    </button>
+</div>

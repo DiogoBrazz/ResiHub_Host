@@ -1,0 +1,91 @@
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+
+  h5 {
+    margin: 0;
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.weekday-header {
+  font-weight: bold;
+  color: #6c757d;
+  padding-bottom: 10px;
+}
+
+.day-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: background-color 0.2s;
+
+  &.not-current-month {
+    background-color: #f8f9fa;
+    color: #adb5bd;
+  }
+
+  &.occupied {
+    background-color: #f8d7da; // Vermelho claro (Bootstrap danger)
+    color: #721c24;
+    font-weight: bold;
+    border-color: #f5c6cb;
+  }
+  
+  &.today span {
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  }
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.box {
+  width: 15px;
+  height: 15px;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
+
+.occupied-box {
+  background-color: #f8d7da;
+}
+
+.free-box {
+  background-color: #fff;
+}
+
+.btn-secondary{
+  width: 200px;
+  margin: 20px 75vh;
+}

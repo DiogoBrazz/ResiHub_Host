@@ -1,0 +1,16 @@
+<section class="login-section">
+    <div id="card-login">
+        <h2 class="text-uppercase">Login</h2>
+        <p>Entre com seu usuário e senha</p>
+        <div class="card-input">
+            <input type="text" class="input" for="usuario" placeholder=" " (keyup.enter)="logar()" [(ngModel)]="login.username" />
+            <label for="apartamento">Usuário</label>
+        </div>
+        <div class="card-input">
+            <input type="password" class="input" for="senha" placeholder=" " (keyup.enter)="logar()" [(ngModel)]="login.password" />
+            <label for="apartamento">Senha</label>
+        </div>
+        <button id="btn" type="submit" (click)="logar()">Acessar</button>
+        <a id="registrar" href="register">Registrar-se</a>
+    </div>
+</section>
