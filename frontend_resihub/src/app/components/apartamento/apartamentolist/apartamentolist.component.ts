@@ -41,6 +41,7 @@ export class ApartamentolistComponent {
         this.lista = lista;
       },
       error: erro => {
+        if(erro.status != 403){
         Swal.fire({
           title: 'Erro ao carregar lista de apartamentos!',
           icon: 'warning',
@@ -50,6 +51,7 @@ export class ApartamentolistComponent {
             popup: 'swal2-popup'
           }
         });
+        }
         console.log(erro);
       }
     });
@@ -61,11 +63,7 @@ export class ApartamentolistComponent {
         this.listaCliente = clientes;
       },
       error: erro => {
-        Swal.fire({
-          title: 'Erro ao carregar cliente',
-          icon: 'error',
-          showConfirmButton: true
-        });
+        console.log(erro)
       }
     });
   }

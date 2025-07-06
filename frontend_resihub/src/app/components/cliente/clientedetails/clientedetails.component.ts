@@ -115,9 +115,10 @@ export class ClientedetailsComponent {
         this.lista = lista;
       },
       error: erro => {
+        if(erro.status != 403){
         alert('Erro ao carregar lista de apartamentos');
         console.error(erro);
-      }
+      }}
     });
   
     // Carregar lista de clientes

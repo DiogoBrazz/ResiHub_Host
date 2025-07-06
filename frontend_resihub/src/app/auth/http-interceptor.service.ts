@@ -2,6 +2,7 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import Swal from 'sweetalert2';
 
 export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   const authToken = 'YOUR_AUTH_TOKEN_HERE';
@@ -18,20 +19,28 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
 
   return next(request).pipe(
     catchError((err: any) => {
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
-          //alert('401 - tratar');
+    if (err instanceof HttpErrorResponse) {
+      if (err.status === 401) {
+        router.navigate(['/login']);
+      } else if (err.status === 403) {
+        router.navigate(['/login']);
+        Swal.fire({
+          icon: 'warning',
+          title: 'Autenticação Expirada',
+          text: 'Sua sessão expirou. Faça login novamente.',
+          confirmButtonText: 'Ok',
+        }).then(() => {
           router.navigate(['/login']);
-        } else if (err.status === 403) {
-          alert('Realize o login novamente!');
-        } else {
-          console.error('HTTP error:', err);
-        }
+        });
       } else {
-        console.error('An error occurred:', err);
+        console.error('HTTP error:', err);
       }
+    } else {
+      console.error('An error occurred:', err);
+    }
 
-      return throwError(() => err);
+    return throwError(() => err);
     })
-  );
+  )
+
 };

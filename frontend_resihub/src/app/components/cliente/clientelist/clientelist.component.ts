@@ -38,13 +38,14 @@ export class ClientelistComponent {
         this.listaFiltrada = lista;
       },
       error: erro => {
+        if(erro.status != 403){
         Swal.fire({
           title: 'Erro ao carregar a lista de clientes!',
           icon: 'error',
           showConfirmButton: false,
           timer: 1500
         });
-      }
+      }}
     });
   }
 

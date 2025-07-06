@@ -31,6 +31,7 @@ export class ContratolistComponent {
        this.lista = lista;
       },
       error: erro => {
+        if(erro.status != 403){
         Swal.fire({
           title: 'Erro ao carregar lista de contratos!',
           icon: 'warning',
@@ -41,7 +42,7 @@ export class ContratolistComponent {
           }
         });
         console.log(erro);
-      }
+      }}
     });
   }
 

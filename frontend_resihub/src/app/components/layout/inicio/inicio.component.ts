@@ -38,6 +38,7 @@ export class InicioComponent {
         this.ocupados = lista.filter(a => a.status != 'Livre').length;
       },
       error: erro => {
+      if(erro.status != 403){
       Swal.fire({
         title: 'Erro ao carregar total de apartamentos!',
         icon: 'warning',
@@ -45,7 +46,7 @@ export class InicioComponent {
         timer: 2500
       });
       console.log(erro);
-    }
+    }}
     });
   
   }
@@ -63,6 +64,7 @@ export class InicioComponent {
         this.totalClientes = lista.length;
       },
       error: erro => {
+      if(erro.status != 403){
       Swal.fire({
         title: 'Erro ao carregar total de clientes!',
         icon: 'warning',
@@ -70,7 +72,7 @@ export class InicioComponent {
         timer: 2500
       });
       console.log(erro);
-    }
+    }}
     });
   }
 

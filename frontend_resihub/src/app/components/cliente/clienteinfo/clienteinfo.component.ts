@@ -36,13 +36,14 @@ export class ClienteinfoComponent implements OnInit {
         this.cliente.contratos.reverse();
       },
       error: erro => {
+        if(erro.status != 403){
         Swal.fire({
           title: 'Erro ao carregar cliente',
           icon: 'error',
           timer: 1500
         });
         console.error(erro);
-      }
+      }}
     });
   }
 

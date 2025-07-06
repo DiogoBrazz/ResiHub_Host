@@ -57,9 +57,10 @@ export class ApartamentoinfoComponent implements OnInit {
     this.apartamentoService.findByAparNum(aparnum).subscribe({
       next: (ap) => this.apartamento = ap,
       error: (erro) => {
+        if(erro.status != 403){
         console.error(erro);
         Swal.fire('Erro', 'Não foi possível carregar os dados do apartamento.', 'error');
-      }
+      }}
     });
   }
 
@@ -71,9 +72,10 @@ export class ApartamentoinfoComponent implements OnInit {
         this.generateCalendar(this.currentDate);
       },
       error: (erro) => {
+        if(erro.status != 403){
         console.error(erro);
         Swal.fire('Aviso', 'Não foi possível carregar o histórico de ocupação.', 'warning');
-      }
+      }}
     });
   }
 
