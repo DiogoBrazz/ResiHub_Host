@@ -49,10 +49,12 @@
         }
 
         @for(day of calendarDays; track day.date) {
-          <div class="day-cell" 
+          <div class="day-cell" title="{{ getOccupantName(day.date) }}"
                [class.occupied]="day.isOccupied && day.isCurrentMonth"
                [class.not-current-month]="!day.isCurrentMonth"
-               [class.today]="day.isToday">
+               [class.today]="day.isToday"
+               [class.clickable]="day.isOccupied && day.isCurrentMonth"
+                (click)="redirectToClientInfo(day)">
             <span>{{ day.dayOfMonth }}</span>
           </div>
         }

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // CommonModule já inclui o DatePipe
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 
 // Models
@@ -30,6 +30,7 @@ interface CalendarDay {
 export class ApartamentoinfoComponent implements OnInit {
 
   route = inject(ActivatedRoute);
+  router = inject(Router);
   apartamentoService = inject(ApartamentoService);
   contratoService = inject(ContratoService);
 
@@ -113,18 +114,25 @@ export class ApartamentoinfoComponent implements OnInit {
   }
 
   isDateOccupied(date: Date): boolean {
-    // Normaliza a data para ignorar a hora
-    const checkDate = new Date(date.setHours(0, 0, 0, 0));
+  // Normaliza a data do calendário para a meia-noite local, ignorando a hora.
+  const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
 
-    for (const contrato of this.listaContratos) {
-      const startDate = new Date(new Date(contrato.entrada).setHours(0,0,0,0));
-      const endDate = new Date(new Date(contrato.saida).setHours(0,0,0,0));
-      if (checkDate >= startDate && checkDate <= endDate) {
-        return true;
-      }
+  for (const contrato of this.listaContratos) {
+    // Corrige a data de ENTRADA para o fuso horário local
+    const startDateUTC = new Date(contrato.entrada);
+    const startDate = new Date(startDateUTC.getTime() + startDateUTC.getTimezoneOffset() * 60000);
+
+    // Corrige a data de SAÍDA para o fuso horário local
+    const endDateUTC = new Date(contrato.saida);
+    const endDate = new Date(endDateUTC.getTime() + endDateUTC.getTimezoneOffset() * 60000);
+
+    // Agora a comparação funciona corretamente com as datas locais
+    if (checkDate >= startDate && checkDate <= endDate) {
+      return true;
     }
-    return false;
   }
+  return false;
+}
 
   isSameDay(date1: Date, date2: Date): boolean {
     return date1.getFullYear() === date2.getFullYear() &&
@@ -141,4 +149,51 @@ export class ApartamentoinfoComponent implements OnInit {
     this.currentDate = new Date(this.currentDate.setMonth(this.currentDate.getMonth() + 1));
     this.generateCalendar(this.currentDate);
   }
+
+  getOccupantName(date: Date): string | null {
+  const checkDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+  for (const contrato of this.listaContratos) {
+    // Normaliza as datas do contrato para comparação
+    const startDateUTC = new Date(contrato.entrada);
+    const startDate = new Date(startDateUTC.getTime() + startDateUTC.getTimezoneOffset() * 60000);
+    const endDateUTC = new Date(contrato.saida);
+    const endDate = new Date(endDateUTC.getTime() + endDateUTC.getTimezoneOffset() * 60000);
+
+    if (checkDate >= startDate && checkDate <= endDate && contrato.cliente?.nome) {
+        return contrato.cliente.nome; 
+      }
+    }
+  return null; // Retorna null se a data não estiver ocupada
+  }
+
+
+
+  redirectToClientInfo(day: CalendarDay): void {
+  // 1. Verifica se o dia é realmente clicável (ocupado e no mês atual)
+  if (!day.isOccupied || !day.isCurrentMonth) {
+    return; // Se não for, não faz nada
+  }
+
+  // 2. Lógica para encontrar o contrato e o ID do inquilino (muito parecida com a do getOccupantName)
+  const checkDate = new Date(day.date.getFullYear(), day.date.getMonth(), day.date.getDate());
+  
+  for (const contrato of this.listaContratos) {
+    const startDateUTC = new Date(contrato.entrada);
+    const startDate = new Date(startDateUTC.getTime() + startDateUTC.getTimezoneOffset() * 60000);
+
+    const endDateUTC = new Date(contrato.saida);
+    const endDate = new Date(endDateUTC.getTime() + endDateUTC.getTimezoneOffset() * 60000);
+
+    if (checkDate >= startDate && checkDate <= endDate) {
+      // 3. Pega o ID do inquilino e redireciona
+      const inquilinoId = contrato.cliente?.id; // IMPORTANTE: Ajuste isso ao seu modelo de dados
+
+      if (inquilinoId) {
+        this.router.navigate(['/sistema/cliente/', inquilinoId]);
+        return; // Para o loop assim que encontrar o inquilino e navegar
+      }
+    }
+  }
+}
 }

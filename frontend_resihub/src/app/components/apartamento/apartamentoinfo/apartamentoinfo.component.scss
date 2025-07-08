@@ -128,6 +128,7 @@ $border-color: #e9ecef;      // Cor da borda
 
 .day-cell {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 60px;
@@ -136,6 +137,14 @@ $border-color: #e9ecef;      // Cor da borda
   transition: background-color 0.2s ease;
   font-weight: 500;
   cursor: default;
+
+  &.clickable {
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e9ecef; // Um cinza claro para indicar o hover
+    }
+  }
 
   &:hover:not(.not-current-month) {
     background-color: $gray-light;
