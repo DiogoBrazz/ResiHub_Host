@@ -22,6 +22,8 @@ export class ApartamentodetailsComponent {
   router2 = inject(ActivatedRoute);
   modoEdicao = false;
 
+  dropdownAberto = false;
+
   constructor() { 
     let id = this.router2.snapshot.params['id'];
     if(id > 0){
@@ -84,6 +86,15 @@ export class ApartamentodetailsComponent {
       });
     }
   }
+
+toggleDropdown() {
+  this.dropdownAberto = !this.dropdownAberto;
+}
+
+selecionarPeriodo(valor: string) {
+  this.apartamento.periodo = valor;
+  this.dropdownAberto = false;
+}
 
 }
 

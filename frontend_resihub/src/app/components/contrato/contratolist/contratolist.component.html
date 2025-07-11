@@ -8,15 +8,15 @@
       </button>
        @if(arquivados){
             <div class="titulo">
-                <h3>Listagem de contratos: <b style="color: #fff; background-color: rgb(243, 70, 70); padding: 6px; border-radius: 6px;">Inativos</b></h3>
                 <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
-                (click)="arquivados = false">Ativos</button>
+                style="color: #fff; background-color: rgb(243, 70, 70); padding: 6px; border-radius: 6px;"
+                (click)="arquivados = false">Inativos</button>
             </div>
         } @else{
             <div class="titulo">
-                <h3>Listagem de contratos: <b style="color: #fff; background-color: green; padding: 6px; border-radius: 6px;">Ativos</b></h3>
                 <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
-                (click)="arquivados = true">Inativos</button>
+                style="color: #fff; background-color: green; padding: 6px; border-radius: 6px;"
+                (click)="arquivados = true">Ativos</button>
             </div>
         }
     </div>
@@ -29,6 +29,7 @@
             <th class="text-center">Apartamento</th>
             <th>Expira em</th>
             <th>Identificador</th>
+            <th>Status</th>
             <th class="th-actions">Ações</th>
           </tr>
         </thead>
@@ -47,7 +48,13 @@
                 <td>
                     {{ contrato.saida | date:'dd/MM/yyyy' }}
                 </td>
-                <td>{{contrato.identificador}}</td>
+                @if (arquivados) {
+                  <td><span class="status-badge status-inativo">{{contrato.identificador}}</span></td>
+                  <td>Inativo</td>
+                }@else{
+                  <td><span class="status-badge status-ativo">{{contrato.identificador}}</span></td>
+                  <td>Ativo</td>
+                }
                 
                <td class="td-actions">
                 @if(!arquivados){

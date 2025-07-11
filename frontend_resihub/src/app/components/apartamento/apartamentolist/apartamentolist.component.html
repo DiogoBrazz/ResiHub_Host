@@ -21,7 +21,13 @@
       <tbody>
         @for (apartamento of lista; track $index) {
         <tr>
-          <td class="td-numero"><b>{{apartamento.aparnum}}</b></td>
+          @if (apartamento.periodo === 'mensal') {
+            <td class="td-numero"><b style="background-color: rgba(255, 165, 0, 0.5); padding: 4px; border-radius: 6px;">{{apartamento.aparnum}}</b></td>
+          }@else if (apartamento.periodo === 'diario') {
+            <td class="td-numero"><b style="background-color: rgba(89, 182, 13, 0.25); padding: 4px; border-radius: 6px;">{{apartamento.aparnum}}</b></td>
+          }@else{
+            <td class="td-numero"><b>{{apartamento.aparnum}}</b></td>
+          }
           <td>{{apartamento.andar}}º</td>
           <td>
             @if (getStatusParaApartamento(apartamento.aparnum) === 'Livre') {

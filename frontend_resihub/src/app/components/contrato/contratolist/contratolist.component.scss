@@ -140,7 +140,7 @@
     margin-left: 8px;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
+    border-radius: var(--border-radius);
     color: #fff;
 
     .fas {
@@ -155,6 +155,23 @@
       color: var(--danger-color);
       &:hover { background-color: rgba(220, 53, 69, 0.1); }
     }
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+
+  &.status-ativo {
+    background-color: var(--status-ativo-bg);
+    color: var(--status-ativo-text);
+  }
+  &.status-inativo {
+    background-color: var(--status-inativo-bg);
+    color: var(--status-inativo-text);
+  }
 }
 
 // Empty State for Table
