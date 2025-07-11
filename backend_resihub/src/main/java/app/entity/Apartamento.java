@@ -31,8 +31,8 @@ public class Apartamento {
 	//@NotBlank
 	private String status;
 	
-	//@NotNull(message = "Este campo não pode ser nulo")
-	private String fotos;
+	@NotNull(message = "Este campo não pode ser nulo")
+	private String periodo;
 	
 
 
@@ -82,13 +82,15 @@ public class Apartamento {
 		this.status = status;
 	}
 
-	public String getFotos() {
-		return fotos;
+	public String getPeriodo() {
+		return periodo;
 	}
 
-	public void setFotos(String fotos) {
-		this.fotos = fotos;
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
 	}
+
+
 
 	
 }
