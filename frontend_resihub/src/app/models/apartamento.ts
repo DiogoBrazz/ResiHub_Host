@@ -6,4 +6,5 @@ export class Apartamento {
     documentos!: string;
     andar!: number;
     bloco!: number;
+    observacoes!: string;
 }

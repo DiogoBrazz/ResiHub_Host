@@ -1,7 +1,12 @@
 <div class="container">
-
-    <table class="tabela">
-        @if(arquivados){
+ <h3>Listagem de Contratos</h3>
+ 
+  <div class="card">
+    <div class="card-header">
+      <button type="button" class="btn btn-primary" routerLink="/sistema/contrato/new">
+        <i class="fas fa-plus"></i> Novo Contrato
+      </button>
+       @if(arquivados){
             <div class="titulo">
                 <h3>Listagem de contratos: <b style="color: #fff; background-color: rgb(243, 70, 70); padding: 6px; border-radius: 6px;">Inativos</b></h3>
                 <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
@@ -14,44 +19,61 @@
                 (click)="arquivados = true">Inativos</button>
             </div>
         }
+    </div>
 
-        <thead id="head_tabela">
-            <tr>
-                <th>Cliente</th>
-                <th>Apartamento</th>
-                <th>Data de Expiração</th>
-                <th>Identificador</th>
-                <div class="direita">
-                    <button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/sistema/contrato/new">Novo</button>
-                </div>
-            </tr>
+    <div class="table-container">
+      <table class="tabela-contratos">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th class="text-center">Apartamento</th>
+            <th>Expira em</th>
+            <th>Identificador</th>
+            <th class="th-actions">Ações</th>
+          </tr>
         </thead>
-
-        <tbody id="body_tabela">
+        <tbody>
             @for (contrato of lista; track $index) {
 
             @if(contrato.status != arquivados){
 
             <tr>
-                <td>
-                    <p>{{contrato.cliente.nome}}</p>
+                <td class="td-cliente">
+                    <b>{{contrato.cliente.nome}}</b>
+                </td>
+                <td class="text-center">
+                    {{contrato.ap.aparnum}}
                 </td>
                 <td>
-                    <p>{{contrato.ap.aparnum}}</p>
+                    {{ contrato.saida | date:'dd/MM/yyyy' }}
                 </td>
-                <td>(Desenvolvimento)</td>
                 <td>{{contrato.identificador}}</td>
                 
-                <td class="direita">
-                    @if(!arquivados){
-                    <button type="button" class="btn btn-danger" data-mdb-ripple-init
-                        (click)="arquivar(contrato)">Arquivar</button>
-                    }
+               <td class="td-actions">
+                @if(!arquivados){
+                    <button type="button" class="btn btn-icon btn-warning-outline" title="Arquivar Contrato" (click)="arquivar(contrato)">
+                        <i class="fas fa-archive"></i>
+                    </button>
+                }
+                <button type="button" class="btn btn-icon btn-danger-outline" title="Deletar Permanentemente" (click)="deletar(contrato)">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
                 </td>
             </tr>
             }
-            }
-
+        }
         </tbody>
-    </table>
+      </table>
+
+      @if(lista.length === 0){
+        <div class="empty-state">
+           <i class="fas fa-file-alt empty-icon"></i>
+           <p>Nenhum contrato cadastrado.</p>
+           <span>
+             Clique em "Novo Contrato" para adicionar o primeiro.
+           </span>
+        </div>
+      }
+    </div>
+  </div>
 </div>

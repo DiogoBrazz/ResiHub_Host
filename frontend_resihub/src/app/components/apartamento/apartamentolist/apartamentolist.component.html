@@ -1,46 +1,59 @@
 <div class="container">
 
-    <table class="tabela">
-        <h3>Listagem de Apartamentos</h3>
-        <thead id="head_tabela">
-            <tr>
-                <th class="thnmr">Número</th>
-                <th>Andar</th>
-                <th>Status</th>
-                <th>Observações</th>
-                <th class="direita">
-                    <button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/sistema/apartamento/new"
-                        title="Adicionar novo apartamento"><i class="fas fa-house-flag"></i></button>
-                </th>
-            </tr>
-        </thead>
+  <h3>Listagem de Apartamentos</h3>
 
-        <tbody id="body_tabela">
-            @for (apartamento of lista; track $index) {
-
-            <tr>
-                <td class="tdnmr"><b>{{apartamento.aparnum}}</b></td>
-                <td><b>{{apartamento.andar}}</b></td>
-                @if (apartamento.status == 'Livre') {
-                <td class="tdstatus">
-                    <p class="statusL">{{apartamento.status}}</p>
-                </td>
-                }@else{
-                <td class="tdstatus">
-                    <p class="statusO">{{apartamento.status}}</p>
-                </td>
-                }
-                <td>
-                    <p>(Desenvolvimento)</p>
-                </td>
-                <td class="direita">
-                    <!--<button type="button" class="btn btn-info" data-mdb-ripple-init routerLink="/admin/apartamento/edit/{{apartamento.aparnum}}">Editar</button> -->
-                    <button type="button" class="btn btn-info" title="Informações" [routerLink]="['/sistema/apartamento/', apartamento.aparnum]"><i class="fas fa-info-circle"></i></button>
-                    <button type="button" class="btn btn-danger" data-mdb-ripple-init (click)="deletar(apartamento)"
-                        title="Deletar apartamento"><i class="fas fa-trash-alt"></i></button>
-                </td>
-            </tr>
+  <div class="card">
+    <table class="tabela-apartamentos">
+      <thead>
+        <tr>
+          <th class="th-numero">Número</th>
+          <th>Andar</th>
+          <th>Status</th>
+          <th>Inquilino</th>
+          <th>Observações</th>
+          <th class="th-actions">
+            <button type="button" class="btn btn-icon add-new" data-mdb-ripple-init routerLink="/sistema/apartamento/new"
+                    title="Adicionar novo apartamento">
+              <i class="fas fa-plus"></i></button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (apartamento of lista; track $index) {
+        <tr>
+          <td class="td-numero"><b>{{apartamento.aparnum}}</b></td>
+          <td>{{apartamento.andar}}º</td>
+          <td>
+            @if (getStatusParaApartamento(apartamento.aparnum) === 'Livre') {
+              <span class="status-badge status-livre">Livre</span>
+            } @else {
+              <span class="status-badge status-ocupado">Ocupado</span>
             }
-        </tbody>
+          </td>
+          <td class="td-inquilino">{{ getInquilinoNome(apartamento) }}</td>
+          <td>
+            <ng-container *ngIf="getObservacaoParaApartamento(apartamento) as obs">
+              @if(obs.texto) {
+                <span class="status-badge" [ngClass]="{
+                  'status-vence-hoje': obs.cor === 'red',
+                  'status-vence-amanha': obs.cor === '#E09D00',
+                  'status-entrada-amanha': obs.cor === 'green',
+                  'status-info': obs.cor === 'inherit'
+                }">{{ obs.texto }}</span>
+              }
+            </ng-container>
+          </td>
+          <td class="td-actions">
+            <button type="button" class="btn btn-icon btn-info-outline" title="Informações" [routerLink]="['/sistema/apartamento/', apartamento.aparnum]">
+              <i class="fas fa-info-circle"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-danger-outline" title="Deletar apartamento" (click)="deletar(apartamento)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
     </table>
+  </div>
 </div>

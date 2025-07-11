@@ -17,17 +17,17 @@
 
       <div class="info-item">
         <label>Status</label>
-        @if (apartamento.status === 'Livre') {
+        @if (statusAtual === 'Livre') {
           <span class="status-badge status-livre">Livre</span>
         } @else {
           <span class="status-badge status-ocupado">Ocupado</span>
         }
       </div>
 
-      @if (apartamento.status != 'Livre') {
+      @if (statusAtual === 'Ocupado') {
         <div class="info-item">
           <label>Locatário</label>
-          <span>{{ apartamento.status }}</span>
+          <span>{{ locatarioAtual }}</span>
         </div>
       }
     </div>
@@ -45,18 +45,16 @@
 
       <div class="calendar-grid">
         @for(dayName of weekDays; track dayName) {
-          <div class="weekday-header">{{ dayName }}</div>
+        <div class="weekday-header">{{ dayName }}</div>
         }
 
         @for(day of calendarDays; track day.date) {
-          <div class="day-cell" title="{{ getOccupantName(day.date) }}"
-               [class.occupied]="day.isOccupied && day.isCurrentMonth"
-               [class.not-current-month]="!day.isCurrentMonth"
-               [class.today]="day.isToday"
-               [class.clickable]="day.isOccupied && day.isCurrentMonth"
-                (click)="redirectToClientInfo(day)">
-            <span>{{ day.dayOfMonth }}</span>
-          </div>
+        <div class="day-cell" title="{{ getOccupantName(day.date) }}"
+          [class.occupied]="day.isOccupied && day.isCurrentMonth" [class.not-current-month]="!day.isCurrentMonth"
+          [class.today]="day.isToday" [class.clickable]="day.isOccupied && day.isCurrentMonth"
+          (click)="redirectToClientInfo(day)">
+          <span>{{ day.dayOfMonth }}</span>
+        </div>
         }
       </div>
 

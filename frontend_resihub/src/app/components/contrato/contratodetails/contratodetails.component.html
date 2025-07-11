@@ -17,9 +17,9 @@
             <div class="card-input">
                 <select name="seletor" class="input" for="usuario" placeholder=" " [(ngModel)]="contrato.ap.aparnum">
                     @for (ap of lista; track $index) {
-                        @if (ap.status == 'Livre') {
-                            <option value="{{ap.aparnum}}">{{ap.aparnum}}</option>
-                        }
+                        
+                        <option value="{{ap.aparnum}}">{{ap.aparnum}}</option>
+                        
                     }
                 </select>
                 <label for="apartamento">Apartamento</label>

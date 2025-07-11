@@ -43,6 +43,11 @@ export class ApartamentoinfoComponent implements OnInit {
   public readonly monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   public readonly weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
+  // Novas propriedades para o status dinâmico
+  public statusAtual: 'Livre' | 'Ocupado' = 'Livre'; // Inicia como 'Livre' por padrão
+  public locatarioAtual: string | null = null;
+
+
 
   ngOnInit(): void {
     const aparnumString = this.route.snapshot.paramMap.get('id');
@@ -70,6 +75,7 @@ export class ApartamentoinfoComponent implements OnInit {
       next: (contratos) => {
         this.listaContratos = contratos.filter(c => c.ap?.aparnum === aparnum);
         // Agora que temos os contratos, geramos o calendário
+        this.calcularStatusAtual();
         this.generateCalendar(this.currentDate);
       },
       error: (erro) => {
@@ -193,6 +199,31 @@ export class ApartamentoinfoComponent implements OnInit {
         this.router.navigate(['/sistema/cliente/', inquilinoId]);
         return; // Para o loop assim que encontrar o inquilino e navegar
       }
+    }
+  }
+}
+
+calcularStatusAtual(): void {
+  const hoje = new Date();
+  const hojeNormalizado = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+
+  // Reseta para o padrão antes de checar
+  this.statusAtual = 'Livre';
+  this.locatarioAtual = null;
+
+  for (const contrato of this.listaContratos) {
+    // Reutilizamos a mesma lógica de correção de fuso horário
+    const startDateUTC = new Date(contrato.entrada);
+    const startDate = new Date(startDateUTC.getTime() + startDateUTC.getTimezoneOffset() * 60000);
+
+    const endDateUTC = new Date(contrato.saida);
+    const endDate = new Date(endDateUTC.getTime() + endDateUTC.getTimezoneOffset() * 60000);
+
+    // Verifica se a data de hoje está dentro do período do contrato
+    if (hojeNormalizado >= startDate && hojeNormalizado <= endDate) {
+      this.statusAtual = 'Ocupado';
+      this.locatarioAtual = contrato.cliente?.nome || 'Não informado'; // Pega o nome do locatário
+      return; // Para o loop assim que encontrar um contrato ativo
     }
   }
 }

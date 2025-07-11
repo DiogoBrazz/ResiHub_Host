@@ -3,13 +3,14 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { ContratoModule } from '../../../models/contrato/contrato.module';
 import { ContratoService } from '../../../services/contrato.service';
+import { CommonModule } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-contratolist',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './contratolist.component.html',
   styleUrl: './contratolist.component.scss'
 })

@@ -65,20 +65,28 @@ export class ClientelistComponent {
 
   get listaFiltradaOrdenada(): Cliente[] {
   return this.listaFiltrada
-    .slice() // cria uma cópia para não modificar o original
+    .slice() // Cria uma cópia para não modificar o array original
     .sort((a, b) => {
-      const contratoA = this.getContratoAtivo(a);
-      const contratoB = this.getContratoAtivo(b);
+      // Atribui uma pontuação de prioridade para cada cliente
+      const getScore = (cliente: Cliente): number => {
+        if (this.getContratoAtivo(cliente)) {
+          return 2; // Prioridade máxima: Contrato ativo
+        }
+        if (cliente.contratos && cliente.contratos.length > 0) {
+          return 1; // Prioridade média: Possui contrato(s), mas inativo(s)
+        }
+        return 0; // Prioridade mínima: Sem contrato
+      };
 
-      const aTemContrato = contratoA ? 1 : 0;
-      const bTemContrato = contratoB ? 1 : 0;
+      const scoreA = getScore(a);
+      const scoreB = getScore(b);
 
-      // Primeiro: clientes com contrato ativo vêm antes
-      if (aTemContrato !== bTemContrato) {
-        return bTemContrato - aTemContrato; // true > false
+      // 1. Ordena pela pontuação de prioridade (do maior para o menor)
+      if (scoreA !== scoreB) {
+        return scoreB - scoreA;
       }
 
-      // Segundo: ordem alfabética
+      // 2. Se a prioridade for a mesma, ordena por nome
       return a.nome.localeCompare(b.nome);
     });
 }

@@ -1,74 +1,88 @@
 <div class="container">
-    <table class="tabela">
-        <h3>Listagem de Clientes</h3>
-        <thead id="head_tabela">
-            <input type="text" class="form-control" [(ngModel)]="termoPesquisa" (input)="filtrarClientes()" placeholder="Pesquisar por nome...">
-            <tr>
-                <th>Nome</th>
-                <th>Apartamento</th>
-                <th>Contrato</th>
-                <th>Valor alguel</th>
-                <th>Data de entrada</th>
-                <div class="direita">
-                    <button type="button" class="btn btn-info" title="Cadastrar Cliente" data-mdb-ripple-init routerLink="/sistema/cliente/new"><i class="fas fa-user-plus"></i></button>
-                </div>
-            </tr>
+  <h3>Listagem de Clientes</h3>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" class="form-control" [(ngModel)]="termoPesquisa" (input)="filtrarClientes()" placeholder="Pesquisar por nome...">
+      </div>
+      <button type="button" class="btn btn-primary add-new" title="Cadastrar Cliente" routerLink="/sistema/cliente/new">
+        <i class="fas fa-user-plus"></i> Novo Cliente
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table class="tabela-clientes">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th class="text-center">Apartamento</th>
+            <th>Status do Contrato</th>
+            <th>Aluguel (Total)</th>
+            <th>Data de Entrada</th>
+            <th class="th-actions">Ações</th>
+          </tr>
         </thead>
-
-        <tbody id="body_tabela">
-            @for (cliente of listaFiltradaOrdenada; track $index) {
+        <tbody>
+          @for (cliente of listaFiltradaOrdenada; track cliente.id) {
             <tr>
-                <td>{{cliente.nome}}</td>
-                <!-- Apartamento ativo -->
-                <td>
-                    <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
-                        <b>{{ contratoAtivo.ap.aparnum }}</b><br>
-                    </ng-container>
-                </td>
+              <td class="td-nome"><b>{{ cliente.nome }}</b></td>
 
-                <!-- Identificador do contrato -->
-                <td>
-                    <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo; else checkInexistente">
-                        <b style="color: green;">{{ contratoAtivo.identificador }}</b><br>
-                    </ng-container>
+              <td class="text-center">
+                <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
+                  {{ contratoAtivo.ap.aparnum }}
+                </ng-container>
+                <ng-container *ngIf="!getContratoAtivo(cliente)">-</ng-container>
+              </td>
 
-                    <ng-template #checkInexistente>
-                        <ng-container *ngIf="cliente && cliente.contratos && cliente.contratos.length > 0; else inexistente">
-                        <b style="color: red;">Inativo</b><br>
-                        </ng-container>
-                    </ng-template>
+              <td>
+                <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo; else checkInativo">
+                  <span class="status-badge status-ativo">{{ contratoAtivo.identificador }}</span>
+                </ng-container>
 
-                    <ng-template #inexistente>
-                        <b style="color: rgb(109, 109, 109);">Sem Contratos</b><br>
-                    </ng-template>
-                    </td>
+                <ng-template #checkInativo>
+                  <ng-container *ngIf="cliente.contratos && cliente.contratos.length > 0; else semContrato">
+                    <span class="status-badge status-inativo">Inativo</span>
+                  </ng-container>
+                </ng-template>
 
-                <!-- Valor total -->
-                <td>
-                    <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
-                    <b>R$ </b>{{ 
-                        +contratoAtivo.valor_condominio + 
-                        +contratoAtivo.valor_aluguel + 
-                        +contratoAtivo.valor_internet + 
-                        +contratoAtivo.valor_iptu 
-                    }}<br>
-                    </ng-container>
-                </td>
+                <ng-template #semContrato>
+                  <span class="status-badge status-sem-contrato">Sem Contrato</span>
+                </ng-template>
+              </td>
 
-                <!-- Data de entrada -->
-                <td>
-                    <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
-                    <b>{{ contratoAtivo.entrada | date: 'dd/MM/yyyy' }}</b><br>
-                    </ng-container>
-                </td>
+              <td>
+                <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
+                  {{
+                    (+contratoAtivo.valor_condominio +
+                     +contratoAtivo.valor_aluguel +
+                     +contratoAtivo.valor_internet +
+                     +contratoAtivo.valor_iptu) | currency:'BRL':'symbol':'1.2-2'
+                  }}
+                </ng-container>
+                 <ng-container *ngIf="!getContratoAtivo(cliente)">-</ng-container>
+              </td>
 
-                <td class="direita">
-                    <button type="button" class="btn btn-info" title="Informações" [routerLink]="['/sistema/cliente/', cliente.id]"><i class="fas fa-info-circle"></i></button>
-                    <button type="button" class="btn btn-danger" title="Deletar" data-mdb-ripple-init (click)="deletar(cliente)"><i class="fas fa-trash-alt"></i></button>
-                </td>
+              <td>
+                <ng-container *ngIf="getContratoAtivo(cliente) as contratoAtivo">
+                  {{ contratoAtivo.entrada | date: 'dd/MM/yyyy' }}
+                </ng-container>
+                 <ng-container *ngIf="!getContratoAtivo(cliente)">-</ng-container>
+              </td>
+
+              <td class="td-actions">
+                <button type="button" class="btn btn-icon btn-info-outline" title="Informações" [routerLink]="['/sistema/cliente/', cliente.id]">
+                  <i class="fas fa-info-circle"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-danger-outline" title="Deletar" (click)="deletar(cliente)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
             </tr>
-            }
-
+          }
         </tbody>
-    </table>
+      </table>
+    </div>
+  </div>
 </div>
