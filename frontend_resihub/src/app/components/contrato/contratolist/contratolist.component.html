@@ -1,86 +1,139 @@
 <div class="container">
- <h3>Listagem de Contratos</h3>
- 
-  <div class="card">
-    <div class="card-header">
+  <div class="dashboard-financeiro">
+    <header class="dashboard-header">
+      <i class="fas fa-file-invoice-dollar header-icon"></i>
+      <div class="header-title">
+        <h1>Dashboard Financeiro - Condomínio Residencial</h1>
+        <p>Gestão completa de pagamentos e controle financeiro</p>
+      </div>
       <button type="button" class="btn btn-primary" routerLink="/sistema/contrato/new">
         <i class="fas fa-plus"></i> Novo Contrato
       </button>
-       @if(arquivados){
-            <div class="titulo">
-                <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
-                style="color: #fff; background-color: rgb(243, 70, 70); padding: 6px; border-radius: 6px;"
-                (click)="arquivados = false">Inativos</button>
-            </div>
-        } @else{
-            <div class="titulo">
-                <button type="button" class="btn btn-arquivar" data-mdb-ripple-init
-                style="color: #fff; background-color: green; padding: 6px; border-radius: 6px;"
-                (click)="arquivados = true">Ativos</button>
-            </div>
-        }
-    </div>
+    </header>
 
-    <div class="table-container">
-      <table class="tabela-contratos">
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th class="text-center">Apartamento</th>
-            <th>Expira em</th>
-            <th>Identificador</th>
-            <th>Status</th>
-            <th class="th-actions">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-            @for (contrato of lista; track $index) {
-
-            @if(contrato.status != arquivados){
-
-            <tr>
-                <td class="td-cliente">
-                    <b>{{contrato.cliente.nome}}</b>
-                </td>
-                <td class="text-center">
-                    {{contrato.ap.aparnum}}
-                </td>
-                <td>
-                    {{ contrato.saida | date:'dd/MM/yyyy' }}
-                </td>
-                @if (arquivados) {
-                  <td><span class="status-badge status-inativo">{{contrato.identificador}}</span></td>
-                  <td>Inativo</td>
-                }@else{
-                  <td><span class="status-badge status-ativo">{{contrato.identificador}}</span></td>
-                  <td>Ativo</td>
-                }
-                
-               <td class="td-actions">
-                @if(!arquivados){
-                    <button type="button" class="btn btn-icon btn-warning-outline" title="Arquivar Contrato" (click)="arquivar(contrato)">
-                        <i class="fas fa-archive"></i>
-                    </button>
-                }
-                <button type="button" class="btn btn-icon btn-danger-outline" title="Deletar Permanentemente" (click)="deletar(contrato)">
-                    <i class="fas fa-trash-alt"></i>
-                </button>
-                </td>
-            </tr>
-            }
-        }
-        </tbody>
-      </table>
-
-      @if(lista.length === 0){
-        <div class="empty-state">
-           <i class="fas fa-file-alt empty-icon"></i>
-           <p>Nenhum contrato cadastrado.</p>
-           <span>
-             Clique em "Novo Contrato" para adicionar o primeiro.
-           </span>
+    <section class="summary-cards">
+      <div class="card card-green">
+        <div class="card-content">
+          <h3>Receita Total do Mês</h3>
+          <p class="value">R$ 26.745,84</p>
         </div>
-      }
-    </div>
+        <i class="fas fa-arrow-trend-up card-icon icon-green"></i>
+      </div>
+      <div class="card card-blue">
+        <div class="card-content">
+          <h3>Total Recebido</h3>
+          <p class="value">R$ 22.150,00</p>
+        </div>
+        <i class="fas fa-check-circle card-icon icon-blue"></i>
+      </div>
+      <div class="card card-yellow">
+        <div class="card-content">
+          <h3>Total Pendente</h3>
+          <p class="value">R$ 4.595,84</p>
+        </div>
+        <i class="fas fa-hourglass-half card-icon icon-yellow"></i>
+      </div>
+      <div class="card card-red">
+        <div class="card-content">
+          <h3>Unidades com Pendências</h3>
+          <p class="value">7</p>
+        </div>
+        <i class="fas fa-exclamation-circle card-icon icon-red"></i>
+      </div>
+    </section>
+
+    <main class="main-content">
+      <div class="payments-control">
+        <div class="payments-header">
+          <h2>Controle de Pagamentos - Julho 2025</h2>
+          <select class="month-selector">
+            <option value="julho-2025">Julho 2025</option>
+            <option value="junho-2025">Junho 2025</option>
+            <option value="maio-2025">Maio 2025</option>
+          </select>
+        </div>
+        <table class="payments-table">
+          <thead>
+            <tr>
+              <th>Ap.</th>
+              <th>Nome</th>
+              <th>Aluguel</th>
+              <th>Conta de Luz</th>
+              <th>Total a Pagar</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(contrato of lista; track $index){
+              <tr>
+                <td><strong>{{ contrato.ap.aparnum }}</strong></td>
+                <td>{{ contrato.cliente.nome }}</td>
+                <td>R$ {{ contrato.valor_aluguel }}</td>
+                <td>R$ {{ contrato.valor_luz }}</td>
+                <td><strong>R$ {{
+                        +contrato.valor_condominio +
+                        +contrato.valor_aluguel +
+                        +contrato.valor_internet +
+                        +contrato.valor_iptu
+                        }}</strong></td>
+                <td><span class="status-badge status-atrasado">Atrasado</span></td>
+                <td class="action-icons"><i class="fas fa-eye"></i><i class="fas fa-dollar-sign"></i></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <aside class="unit-details">
+        <h2>Detalhes da Unidade: 101 - Carla</h2>
+
+        <div class="details-section">
+          <h3>Informações do Morador</h3>
+          <div class="info-row"><span class="label">Nome:</span><span class="value">Carla</span></div>
+          <div class="info-row"><span class="label">Contato:</span><span class="value">(11) 99999-1001</span></div>
+          <div class="info-row"><span class="label">Último Pagamento:</span><span class="value">15/07/2025</span></div>
+        </div>
+
+        <div class="details-section">
+          <h3>Detalhamento da Conta de Luz</h3>
+          <div class="info-row"><span class="label">Número do Relógio:</span><span class="value">1817094</span></div>
+          <div class="info-row"><span class="label">Leitura (kWh):</span><span class="value">1632</span></div>
+          <div class="info-row"><span class="label">Consumo no Mês:</span><span class="value highlight">60 kWh</span>
+          </div>
+          <div class="info-row"><span class="label">Valor por kWh:</span><span class="value">R$ 0,82</span></div>
+          <div class="calculation-box">
+            <i class="fas fa-calculator" style="margin-right: 6px;"></i>
+            <strong>Cálculo:</strong> 60 kWh × R$ 0,82 = R$ 49,20
+          </div>
+          <div class="divider"></div>
+          <div class="info-row">
+            <span class="label"><strong>Total da Fatura de Luz:</strong></span>
+            <span class="value"><strong>R$ 49,20</strong></span>
+          </div>
+        </div>
+
+        <div class="details-section">
+          <h3>Detalhes da Fatura de Condomínio</h3>
+          <div class="info-row"><span class="label">Valor Base:</span><span class="value">R$ 1.000,00</span></div>
+          <div class="info-row"><span class="label">Taxas Adicionais:</span><span class="value">R$ 0,00</span></div>
+          <div class="divider"></div>
+          <div class="info-row">
+            <span class="label"><strong>Total Condomínio:</strong></span>
+            <span class="value"><strong>R$ 1.000,00</strong></span>
+          </div>
+        </div>
+
+        <div class="total-general">
+          <span class="label">Total Geral:</span>
+          <span class="value">R$ 1.049,20</span>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn btn-primary">Registrar Pagamento Total</button>
+          <button class="btn btn-secondary">Imprimir 2ª Via do Boleto</button>
+        </div>
+      </aside>
+    </main>
   </div>
 </div>

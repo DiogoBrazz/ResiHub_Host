@@ -25,10 +25,16 @@ export class ClientelistComponent {
   listaFiltrada: Cliente[] = []; 
   termoPesquisa: string = ''; 
 
+  public clienteSelecionado: Cliente | null = null;
+
   constructor(){
     this.listAll(); 
   }
 
+  public selecionarCliente(cliente: Cliente): void {
+    this.clienteSelecionado = cliente;
+    console.log('Cliente selecionado:', this.clienteSelecionado);
+  }
 
   listAll(){
     this.clienteService.listAll().subscribe({

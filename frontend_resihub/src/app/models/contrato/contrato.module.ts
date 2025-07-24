@@ -11,10 +11,12 @@ export class ContratoModule {
   valor_iptu!: number;
   valor_internet!: number;
   valor_aluguel!: number;
+  valor_luz!: number;
   valor_total!: number; 
   status!: boolean;
   entrada!: string;
   saida !: string;
+  statusPagamento !: string;
 
   constructor() {
     this.ap = new Apartamento(); 

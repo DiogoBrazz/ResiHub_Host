@@ -1,19 +1,10 @@
-// Color Palette for easy management
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+// ... (variáveis :host permanecem iguais) ...
 :host {
   --primary-color: #007bff;
   --primary-hover-color: #0056b3;
-  --danger-color: #dc3545;
-  --danger-hover-color: #a71d2a;
-  --info-color: #17a2b8;
-  --info-hover-color: #10707f;
-  --light-gray-color: #f8f9fa;
-  --medium-gray-color: #dee2e6;
-  --dark-gray-color: #495057;
-  --text-color: #212529;
-  --card-bg-color: #ffffff;
-  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  --border-radius: 8px;
-
+  // etc...
   --status-ativo-bg: #e9f7ef;
   --status-ativo-text: #28a745;
   --status-inativo-bg: #fff8e1;
@@ -22,32 +13,76 @@
   --status-sem-contrato-text: #546e7a;
 }
 
-// Global container and header styles
-.container h3 {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--text-color);
+
+// Estilos da página (nomes genéricos)
+.page-container {
+  width: 100%;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 24px;
 }
 
-// Card container for the table
-.card {
-  background-color: var(--card-bg-color);
-  border: 1px solid var(--medium-gray-color);
-  border-radius: var(--border-radius);
-  box-shadow: var(--card-shadow);
+.header-icon {
+  font-size: 28px;
+  color: #1e40af;
+  background-color: #dbeafe;
+  padding: 8px;
+  border-radius: 8px;
+  margin-right: 12px;
 }
 
-// Card Header section
-.card-header {
+.header-title {
+  flex-grow: 1;
+
+  h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #1e3a8a;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+  }
+}
+
+.main-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+// Bloco principal de conteúdo com a tabela
+.content-block {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  overflow-x: auto;
+}
+
+.content-block-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--medium-gray-color);
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
 }
 
-// Search box styling
+// Caixa de busca com sintaxe SCSS aninhada (melhor prática)
 .search-box {
   position: relative;
   width: 40%;
@@ -68,7 +103,9 @@
     border: 1px solid var(--medium-gray-color);
     font-size: 15px;
     transition: border-color 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
 
+    // O '&' se refere ao .form-control
     &:focus {
       outline: none;
       border-color: var(--primary-color);
@@ -77,72 +114,71 @@
   }
 }
 
-// Table styling (consistent with apartments list)
-.table-container {
-    overflow-x: auto; // For responsiveness on small screens
-}
-
-.tabela-clientes {
+.data-table {
   width: 100%;
-  border-collapse: collapse;
-  font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  border-collapse: separate;
+  border-spacing: 0 6px;
 
-  thead tr {
-    background-color: var(--light-gray-color);
-  }
-
-  th {
+  th, td {
     padding: 16px;
     text-align: left;
     font-size: 14px;
-    font-weight: 600;
-    color: var(--dark-gray-color);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid var(--medium-gray-color);
     white-space: nowrap;
   }
 
-  tbody tr {
-    border-bottom: 1px solid var(--medium-gray-color);
-    transition: background-color 0.2s ease-in-out;
-
-    &:last-of-type {
-      border-bottom: none;
+  thead {
+    tr {
+      background-color: #f9fafb;
     }
+    
+    th {
+      color: #6b7280;
+      font-weight: 500;
+      border-top: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e5e7eb;
 
-    &:hover {
-      background-color: #f1f5f9;
+      &:first-child {
+        border-left: 1px solid #e5e7eb;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+
+      &:last-child {
+        border-right: 1px solid #e5e7eb;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
     }
   }
 
-  td {
-    padding: 16px;
-    vertical-align: middle;
-    font-size: 15px;
-    color: var(--text-color);
-  }
-  
-  .td-nome {
-      font-size: 16px;
-  }
-  
-  .text-center {
-      text-align: center;
-  }
-  
-  .th-actions, .td-actions {
-    text-align: right;
+  tbody {
+    tr {
+      transition: background-color 0.2s ease;
+      cursor: pointer;
+      
+      td {
+        border-bottom: 1px solid #f3f4f6;
+      }
+
+      &:hover {
+        background-color: #f9fafb;
+      }
+
+      &.selected {
+        background-color: #f9fafb;
+      }
+    }
   }
 }
 
-// Status Badges
+
 .status-badge {
   padding: 5px 12px;
   border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
   display: inline-block;
+
 
   &.status-ativo {
     background-color: var(--status-ativo-bg);
@@ -158,60 +194,170 @@
   }
 }
 
-// Buttons (consistent styling)
-.btn {
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 10px 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
+.action-icons i {
+  margin: 0 8px;
+  color: #9ca3af;
+  font-size: 16px;
+  transition: color 0.2s;
+  
+  &:hover {
+    color: #1e40af;
+  }
+}
 
-  &.add-new {
-    background-color: var(--primary-color);
-    color: white;
-    .fas {
-      margin-right: 8px;
-    }
-    &:hover {
-      background-color: var(--primary-hover-color);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.details-sidebar {
+  background-color: #f9fafb;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+
+  h2 {
+    margin: 0 0 24px 0;
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.details-section {
+  margin-bottom: 20px;
+
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 12px 0;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 8px;
+  }
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 14px;
+
+  .label { color: #6b7280; }
+  .value {
+    color: #1f2937;
+    font-weight: 500;
+    &.highlight {
+      font-weight: 600;
+      color: #1e40af;
     }
   }
 }
 
-.td-actions {
-  .btn-icon {
-    background: transparent;
-    border: 1px solid transparent;
-    padding: 6px;
-    margin-left: 8px;
-    width: 36px;
-    height: 36px;
+.info-box {
+  background-color: #f0f9ff;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  margin-top: 12px;
+  border: 1px solid #e0f2fe;
+  color: #0c4a6e;
+}
 
-    .fas {
-      font-size: 16px;
-    }
+.divider {
+  border-top: 1px solid #e5e7eb;
+  margin: 20px 0;
+}
 
-    &.btn-info-outline {
-      color: var(--info-color);
-      &:hover {
-        background-color: rgba(23, 162, 184, 0.1);
-        color: var(--info-hover-color);
-      }
-    }
+.details-total {
+  background-color: #e0e7ff;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0;
 
-    &.btn-danger-outline {
-      color: var(--danger-color);
-       &:hover {
-        background-color: rgba(220, 53, 69, 0.1);
-        color: var(--danger-hover-color);
-      }
-    }
+  .label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3730a3;
+  }
+  .value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #3730a3;
+  }
+}
+
+.placeholder-sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #9ca3af;
+
+  i {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    color: #6b7280;
+  }
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 16px;
+  color: #9ca3af; 
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #1e40af; 
+  }
+
+  &[title*="Deletar"]:hover {
+    color: var(--danger-color, #dc3545); 
+  }
+}
+
+// Botões
+.btn {
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover { opacity: 0.9; }
+
+  &.btn-primary {
+    background-color: #1d4ed8;
+    color: #fff;
+  }
+
+  &.btn-secondary {
+    background-color: #fff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+  }
+}
+
+// Media Query para responsividade
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr;
   }
 }
